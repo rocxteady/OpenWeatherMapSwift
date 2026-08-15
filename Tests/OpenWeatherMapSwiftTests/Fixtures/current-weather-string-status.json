@@ -1,0 +1,24 @@
+{
+  "coord": { "lon": 0, "lat": 0 },
+  "weather": [],
+  "base": "stations",
+  "main": {
+    "temp": 300,
+    "feels_like": 301,
+    "pressure": 1005,
+    "humidity": 80
+  },
+  "visibility": 10000,
+  "wind": { "speed": 2, "deg": 90 },
+  "clouds": { "all": 10 },
+  "dt": 1786795202,
+  "sys": {
+    "country": "XX",
+    "sunrise": 1786759202,
+    "sunset": 1786810202
+  },
+  "timezone": 0,
+  "id": 2,
+  "name": "String Status",
+  "cod": "200"
+}

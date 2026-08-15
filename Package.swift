@@ -34,7 +34,8 @@ let package = Package(
         ),
         .testTarget(
             name: "OpenWeatherMapSwiftTests",
-            dependencies: ["OpenWeatherMapSwift"]
+            dependencies: ["OpenWeatherMapSwift"],
+            resources: [.copy("Fixtures")]
         ),
     ],
     swiftLanguageModes: [.v6]
