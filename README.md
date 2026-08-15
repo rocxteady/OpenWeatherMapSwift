@@ -43,3 +43,23 @@ for entry in forecast.entries {
 
 `maximumTimestampCount` limits three-hour timestamps, not days, and must be positive when supplied.
 Omit it to request the full service-provided timeline.
+
+## 16-day daily forecast
+
+```swift
+let forecast = try await client.dailyForecast(
+    latitude: 41.0082,
+    longitude: 28.9784,
+    maximumDayCount: 16,
+    units: .metric,
+    language: "tr"
+)
+
+for entry in forecast.entries {
+    print(entry.forecastTime, entry.temperature.maximum)
+}
+```
+
+`maximumDayCount` must be within `1...16`; omit it to use the service default. Units and language
+behave like current-weather requests. Interpret each `forecastTime` using
+`forecast.city.timezoneOffset`; sunrise and sunset remain Unix UTC seconds.

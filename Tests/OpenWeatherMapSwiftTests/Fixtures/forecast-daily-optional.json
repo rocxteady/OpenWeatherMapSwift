@@ -1,0 +1,189 @@
+{
+  "city": {
+    "id": 745044,
+    "name": "Istanbul",
+    "coord": {
+      "lat": 41.0082,
+      "lon": 28.9784
+    },
+    "country": "TR",
+    "timezone": 10800
+  },
+  "cod": "200",
+  "message": 0,
+  "cnt": 5,
+  "list": [
+    {
+      "dt": 1786795200,
+      "sunrise": 1786759200,
+      "sunset": 1786810200,
+      "temp": {
+        "day": 20,
+        "min": 15,
+        "max": 22,
+        "night": 16,
+        "eve": 19,
+        "morn": 15.5
+      },
+      "feels_like": {
+        "day": 20.2,
+        "night": 16.2,
+        "eve": 19.2,
+        "morn": 15.7
+      },
+      "pressure": 1010,
+      "humidity": 60,
+      "weather": [
+        {
+          "id": 800,
+          "main": "Variable",
+          "description": "day 1",
+          "icon": "01d"
+        }
+      ],
+      "speed": 3,
+      "deg": 180,
+      "clouds": 0,
+      "pop": 0
+    },
+    {
+      "dt": 1786881600,
+      "sunrise": 1786845600,
+      "sunset": 1786896600,
+      "temp": {
+        "day": 21,
+        "min": 16,
+        "max": 23,
+        "night": 17,
+        "eve": 20,
+        "morn": 16.5
+      },
+      "feels_like": {
+        "day": 21.2,
+        "night": 17.2,
+        "eve": 20.2,
+        "morn": 16.7
+      },
+      "pressure": 1011,
+      "humidity": 61,
+      "weather": [
+        {
+          "id": 801,
+          "main": "Variable",
+          "description": "day 2",
+          "icon": "01d"
+        }
+      ],
+      "speed": 4,
+      "deg": 181,
+      "clouds": 20,
+      "pop": 0.2,
+      "gust": 6.2,
+      "rain": 1.5
+    },
+    {
+      "dt": 1786968000,
+      "sunrise": 1786932000,
+      "sunset": 1786983000,
+      "temp": {
+        "day": 22,
+        "min": 17,
+        "max": 24,
+        "night": 18,
+        "eve": 21,
+        "morn": 17.5
+      },
+      "feels_like": {
+        "day": 22.2,
+        "night": 18.2,
+        "eve": 21.2,
+        "morn": 17.7
+      },
+      "pressure": 1012,
+      "humidity": 62,
+      "weather": [
+        {
+          "id": 802,
+          "main": "Variable",
+          "description": "day 3",
+          "icon": "01d"
+        }
+      ],
+      "speed": 5,
+      "deg": 182,
+      "clouds": 40,
+      "pop": 0.4,
+      "snow": 0.7
+    },
+    {
+      "dt": 1787054400,
+      "sunrise": 1787018400,
+      "sunset": 1787069400,
+      "temp": {
+        "day": 23,
+        "min": 18,
+        "max": 25,
+        "night": 19,
+        "eve": 22,
+        "morn": 18.5
+      },
+      "feels_like": {
+        "day": 23.2,
+        "night": 19.2,
+        "eve": 22.2,
+        "morn": 18.7
+      },
+      "pressure": 1013,
+      "humidity": 63,
+      "weather": [
+        {
+          "id": 803,
+          "main": "Variable",
+          "description": "day 4",
+          "icon": "01d"
+        }
+      ],
+      "speed": 6,
+      "deg": 183,
+      "clouds": 60,
+      "pop": 0.6000000000000001,
+      "rain": 0.4,
+      "snow": 0.2
+    },
+    {
+      "dt": 1787140800,
+      "sunrise": 1787104800,
+      "sunset": 1787155800,
+      "temp": {
+        "day": 24,
+        "min": 19,
+        "max": 26,
+        "night": 20,
+        "eve": 23,
+        "morn": 19.5
+      },
+      "feels_like": {
+        "day": 24.2,
+        "night": 20.2,
+        "eve": 23.2,
+        "morn": 19.7
+      },
+      "pressure": 1014,
+      "humidity": 64,
+      "weather": [
+        {
+          "id": 804,
+          "main": "Variable",
+          "description": "day 5",
+          "icon": "01d"
+        }
+      ],
+      "speed": 7,
+      "deg": 184,
+      "clouds": 80,
+      "pop": 0.8,
+      "gust": 8.1
+    }
+  ]
+}
+

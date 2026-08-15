@@ -113,6 +113,52 @@ public final class OpenWeatherClient: Sendable {
         )
     }
 
+    /// Fetches an ordered daily forecast for one geographic coordinate.
+    ///
+    /// - Parameters:
+    ///   - latitude: Latitude in the closed range `-90...90`.
+    ///   - longitude: Longitude in the closed range `-180...180`.
+    ///   - maximumDayCount: Optional number of days in the closed range `1...16`.
+    ///   - units: Optional measurement units; `nil` uses the service default.
+    ///   - language: Optional OpenWeather language code.
+    /// - Returns: The decoded daily forecast and city metadata.
+    /// - Throws: `RestingError.invalidRequest` for invalid input, or an untranslated Resting failure.
+    public func dailyForecast(
+        latitude: Double,
+        longitude: Double,
+        maximumDayCount: Int? = nil,
+        units: UnitPreference? = nil,
+        language: String? = nil
+    ) async throws -> DailyForecast {
+        try validateCoordinates(latitude: latitude, longitude: longitude)
+
+        var queryItems = [
+            URLQueryItem(name: "lat", value: String(latitude)),
+            URLQueryItem(name: "lon", value: String(longitude)),
+            URLQueryItem(name: "appid", value: apiKey),
+        ]
+        if let maximumDayCount {
+            guard (1...16).contains(maximumDayCount) else {
+                throw RestingError.invalidRequest(reason: "Maximum day count must be between 1 and 16.")
+            }
+            queryItems.append(URLQueryItem(name: "cnt", value: String(maximumDayCount)))
+        }
+        if let units {
+            queryItems.append(URLQueryItem(name: "units", value: units.rawValue))
+        }
+        if let language {
+            queryItems.append(URLQueryItem(name: "lang", value: language))
+        }
+
+        return try await restClient.execute(
+            .query(
+                url: URL(string: "https://api.openweathermap.org/data/2.5/forecast/daily")!,
+                queryItems: queryItems
+            ),
+            as: DailyForecast.self
+        )
+    }
+
     private func validateCoordinates(latitude: Double, longitude: Double) throws {
         guard (-90...90).contains(latitude) else {
             throw RestingError.invalidRequest(reason: "Latitude must be between -90 and 90.")
