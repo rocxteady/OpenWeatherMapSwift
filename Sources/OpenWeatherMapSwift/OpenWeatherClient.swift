@@ -44,12 +44,7 @@ public final class OpenWeatherClient: Sendable {
         units: UnitPreference? = nil,
         language: String? = nil
     ) async throws -> CurrentWeather {
-        guard (-90...90).contains(latitude) else {
-            throw RestingError.invalidRequest(reason: "Latitude must be between -90 and 90.")
-        }
-        guard (-180...180).contains(longitude) else {
-            throw RestingError.invalidRequest(reason: "Longitude must be between -180 and 180.")
-        }
+        try validateCoordinates(latitude: latitude, longitude: longitude)
 
         var queryItems = [
             URLQueryItem(name: "lat", value: String(latitude)),
@@ -70,5 +65,60 @@ public final class OpenWeatherClient: Sendable {
             ),
             as: CurrentWeather.self
         )
+    }
+
+    /// Fetches the ordered five-day forecast in three-hour intervals.
+    ///
+    /// - Parameters:
+    ///   - latitude: Latitude in the closed range `-90...90`.
+    ///   - longitude: Longitude in the closed range `-180...180`.
+    ///   - maximumTimestampCount: Optional positive maximum number of timestamps.
+    ///   - units: Optional measurement units; `nil` uses the service default.
+    ///   - language: Optional OpenWeather language code.
+    /// - Returns: The decoded forecast timeline and city metadata.
+    /// - Throws: `RestingError.invalidRequest` for invalid input, or an untranslated Resting failure.
+    public func fiveDayForecast(
+        latitude: Double,
+        longitude: Double,
+        maximumTimestampCount: Int? = nil,
+        units: UnitPreference? = nil,
+        language: String? = nil
+    ) async throws -> FiveDayForecast {
+        try validateCoordinates(latitude: latitude, longitude: longitude)
+
+        var queryItems = [
+            URLQueryItem(name: "lat", value: String(latitude)),
+            URLQueryItem(name: "lon", value: String(longitude)),
+            URLQueryItem(name: "appid", value: apiKey),
+        ]
+        if let maximumTimestampCount {
+            guard maximumTimestampCount > 0 else {
+                throw RestingError.invalidRequest(reason: "Maximum timestamp count must be positive.")
+            }
+            queryItems.append(URLQueryItem(name: "cnt", value: String(maximumTimestampCount)))
+        }
+        if let units {
+            queryItems.append(URLQueryItem(name: "units", value: units.rawValue))
+        }
+        if let language {
+            queryItems.append(URLQueryItem(name: "lang", value: language))
+        }
+
+        return try await restClient.execute(
+            .query(
+                url: URL(string: "https://api.openweathermap.org/data/2.5/forecast")!,
+                queryItems: queryItems
+            ),
+            as: FiveDayForecast.self
+        )
+    }
+
+    private func validateCoordinates(latitude: Double, longitude: Double) throws {
+        guard (-90...90).contains(latitude) else {
+            throw RestingError.invalidRequest(reason: "Latitude must be between -90 and 90.")
+        }
+        guard (-180...180).contains(longitude) else {
+            throw RestingError.invalidRequest(reason: "Longitude must be between -180 and 180.")
+        }
     }
 }

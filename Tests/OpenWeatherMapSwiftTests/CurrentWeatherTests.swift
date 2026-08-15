@@ -230,7 +230,7 @@ struct CurrentWeatherTests {
         }
     }
 
-    private func makeClient(apiKey: String = "test-key") -> OpenWeatherClient {
+    func makeClient(apiKey: String = "test-key") -> OpenWeatherClient {
         let sessionConfiguration = URLSessionConfiguration.ephemeral
         sessionConfiguration.protocolClasses = [StubURLProtocol.self]
         return OpenWeatherClient(
@@ -239,19 +239,19 @@ struct CurrentWeatherTests {
         )
     }
 
-    private func fixture(_ name: String) throws -> Data {
+    func fixture(_ name: String) throws -> Data {
         let url = Bundle.module.url(forResource: name, withExtension: nil, subdirectory: "Fixtures")!
         return try Data(contentsOf: url)
     }
 
-    private func queryValues(in request: URLRequest, named name: String) -> [String] {
+    func queryValues(in request: URLRequest, named name: String) -> [String] {
         URLComponents(url: request.url!, resolvingAgainstBaseURL: false)?.queryItems?
             .filter { $0.name == name }
             .compactMap(\.value) ?? []
     }
 }
 
-private final class StubURLProtocol: URLProtocol {
+final class StubURLProtocol: URLProtocol {
     struct Stub {
         let response: URLResponse?
         let data: Data

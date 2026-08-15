@@ -24,3 +24,22 @@ print(weather.measurements.temperature)
 Latitude must be within `-90...90` and longitude within `-180...180`. Omit `units` to use the
 OpenWeather default, or select `.standard`, `.metric`, or `.imperial`. The optional `language`
 argument accepts an OpenWeather language code.
+
+## 5-day / 3-hour forecast
+
+```swift
+let forecast = try await client.fiveDayForecast(
+    latitude: 41.0082,
+    longitude: 28.9784,
+    maximumTimestampCount: 8,
+    units: .metric,
+    language: "tr"
+)
+
+for entry in forecast.entries {
+    print(entry.forecastTime, entry.measurements.temperature)
+}
+```
+
+`maximumTimestampCount` limits three-hour timestamps, not days, and must be positive when supplied.
+Omit it to request the full service-provided timeline.
