@@ -3,7 +3,7 @@ import Resting
 import Testing
 @testable import OpenWeatherMapSwift
 
-extension CurrentWeatherTests {
+extension OpenWeatherClientTests {
     @Test func directGeocodingDecodesOrderedResultsAndRequest() async throws {
         StubURLProtocol.respond(with: try fixture("geocoding-direct.json"))
         let client = makeClient(apiKey: "direct-key")

@@ -28,6 +28,16 @@ Spec Kit adapter and MUST point here. A request to update the constitution means
 - Use Foundation and already-installed dependencies before adding code or packages.
 - Keep one library target unless a measured need requires another target.
 
+## Source Organization
+
+- Keep client state and shared request utilities in `Client/OpenWeatherClient.swift`; group
+  endpoint methods in focused `OpenWeatherClient+...` files under `Client/`.
+- Keep response types under `Models/`. Cohesive feature response graphs may share one file;
+  move only genuinely cross-feature weather values to `SharedWeather.swift`. Do not create one
+  file per type merely for symmetry.
+- Keep endpoint-family tests in separate files and reusable deterministic HTTP support in
+  `TestSupport.swift`.
+
 ## Public API Rules
 
 - Design call sites first and follow Swift API Design Guidelines.
@@ -64,4 +74,3 @@ Spec Kit adapter and MUST point here. A request to update the constitution means
 - Spec Kit workflows MUST contain no gates and request no user input. Agents choose the
   smallest reasonable default, record material assumptions, and continue.
 - Implement numbered phase specs in order unless the user explicitly selects another one.
-

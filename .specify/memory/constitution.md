@@ -1,9 +1,8 @@
 <!--
 Sync Impact Report
-- Version change: template -> 1.0.0
-- Added principles: Canonical Governance; Resting-Only Transport; Swift-Native Async API;
-  Contract Fidelity and Verification; Simplicity
-- Added sections: Platform Constraints; Development Workflow
+- Version change: 1.0.0 -> 1.1.0
+- Modified principles: none
+- Added sections: Source Organization in canonical `AGENTS.md`; adapter structure unchanged
 - Removed sections: none
 - Follow-up TODOs: none
 -->
@@ -65,5 +64,4 @@ Report. MAJOR versions remove or redefine governance, MINOR versions add or mate
 rules, and PATCH versions clarify wording without changing obligations. Reviews MUST verify both
 feature acceptance criteria and governance compliance.
 
-**Version**: 1.0.0 | **Ratified**: 2026-08-15 | **Last Amended**: 2026-08-15
-
+**Version**: 1.1.0 | **Ratified**: 2026-08-15 | **Last Amended**: 2026-08-15

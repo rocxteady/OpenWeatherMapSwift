@@ -3,7 +3,7 @@ import Resting
 import Testing
 @testable import OpenWeatherMapSwift
 
-extension CurrentWeatherTests {
+extension OpenWeatherClientTests {
     @Test func dailyForecastFullResponsePreservesOrderAndRequest() async throws {
         StubURLProtocol.respond(with: try fixture("forecast-daily-full.json"))
 
