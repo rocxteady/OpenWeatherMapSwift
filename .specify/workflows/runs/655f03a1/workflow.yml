@@ -1,0 +1,31 @@
+schema_version: '1.0'
+workflow:
+  id: geocoding
+  name: Geocoding
+  version: 1.0.0
+  author: OpenWeatherMapSwift
+  description: Plans, tasks, and implements docs/spec-kit/004-geocoding/spec.md
+requires:
+  speckit_version: '>=0.16.0'
+  integrations:
+    any:
+    - codex
+steps:
+- id: activate-feature
+  type: shell
+  run: printf '%s\n' '{"feature_directory":"docs/spec-kit/004-geocoding"}' > .specify/feature.json
+- id: plan
+  command: speckit.plan
+  integration: codex
+  input:
+    args: docs/spec-kit/004-geocoding/spec.md
+- id: tasks
+  command: speckit.tasks
+  integration: codex
+  input:
+    args: docs/spec-kit/004-geocoding/spec.md
+- id: implement
+  command: speckit.implement
+  integration: codex
+  input:
+    args: docs/spec-kit/004-geocoding/spec.md

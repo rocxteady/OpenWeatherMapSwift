@@ -1,0 +1,19 @@
+[
+  {
+    "name": "Sultanahmet",
+    "local_names": {
+      "tr": "Sultanahmet",
+      "feature_name": "Historic Peninsula"
+    },
+    "lat": 41.0082,
+    "lon": 28.9784,
+    "country": "TR",
+    "state": "Istanbul"
+  },
+  {
+    "name": "Fatih",
+    "lat": 41.018,
+    "lon": 28.9497,
+    "country": "TR"
+  }
+]

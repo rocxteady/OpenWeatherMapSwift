@@ -1,0 +1,9 @@
+{"event": "step_started", "step_id": "activate-feature", "type": "shell", "timestamp": "2026-08-15T17:36:33.106387+00:00"}
+{"event": "step_completed", "step_id": "activate-feature", "status": "completed", "timestamp": "2026-08-15T17:36:33.113429+00:00"}
+{"event": "step_started", "step_id": "plan", "type": "command", "timestamp": "2026-08-15T17:36:33.114034+00:00"}
+{"event": "step_completed", "step_id": "plan", "status": "completed", "timestamp": "2026-08-15T17:42:18.028696+00:00"}
+{"event": "step_started", "step_id": "tasks", "type": "command", "timestamp": "2026-08-15T17:42:18.033200+00:00"}
+{"event": "step_completed", "step_id": "tasks", "status": "completed", "timestamp": "2026-08-15T17:44:56.962192+00:00"}
+{"event": "step_started", "step_id": "implement", "type": "command", "timestamp": "2026-08-15T17:44:56.964975+00:00"}
+{"event": "step_completed", "step_id": "implement", "status": "completed", "timestamp": "2026-08-15T17:52:15.761039+00:00"}
+{"event": "workflow_finished", "status": "completed", "timestamp": "2026-08-15T17:52:15.762279+00:00"}

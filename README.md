@@ -63,3 +63,27 @@ for entry in forecast.entries {
 `maximumDayCount` must be within `1...16`; omit it to use the service default. Units and language
 behave like current-weather requests. Interpret each `forecastTime` using
 `forecast.city.timezoneOffset`; sunrise and sunset remain Unix UTC seconds.
+
+## Geocoding
+
+```swift
+let matches = try await client.geocode(
+    place: "Istanbul,TR",
+    maximumResultCount: 5
+)
+
+let postalArea = try await client.geocode(
+    postalCode: "34000",
+    countryCode: "TR"
+)
+
+let nearby = try await client.reverseGeocode(
+    latitude: 41.0082,
+    longitude: 28.9784,
+    maximumResultCount: 5
+)
+```
+
+Place, postal-code, and country-code values must not be blank and are sent unchanged. Direct
+limits must be within `1...5`; reverse limits must be positive. Omit either optional limit to use
+the service default. Reverse geocoding uses the same coordinate bounds as weather requests.
