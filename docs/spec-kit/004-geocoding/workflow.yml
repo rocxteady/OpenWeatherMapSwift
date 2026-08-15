@@ -19,19 +19,18 @@ steps:
 
   - id: plan
     command: speckit.plan
-    integration: "auto"
+    integration: "codex"
     input:
       args: "docs/spec-kit/004-geocoding/spec.md"
 
   - id: tasks
     command: speckit.tasks
-    integration: "auto"
+    integration: "codex"
     input:
       args: "docs/spec-kit/004-geocoding/spec.md"
 
   - id: implement
     command: speckit.implement
-    integration: "auto"
+    integration: "codex"
     input:
       args: "docs/spec-kit/004-geocoding/spec.md"
-

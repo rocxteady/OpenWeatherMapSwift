@@ -1,0 +1,6 @@
+{"event": "step_started", "step_id": "activate-feature", "type": "shell", "timestamp": "2026-08-15T14:57:31.763610+00:00"}
+{"event": "step_completed", "step_id": "activate-feature", "status": "completed", "timestamp": "2026-08-15T14:57:31.770623+00:00"}
+{"event": "step_started", "step_id": "plan", "type": "command", "timestamp": "2026-08-15T14:57:31.771230+00:00"}
+{"event": "step_completed", "step_id": "plan", "status": "failed", "timestamp": "2026-08-15T14:57:31.771547+00:00"}
+{"event": "step_failed", "step_id": "plan", "error": "Cannot dispatch command 'speckit.plan': integration 'auto' CLI not found or not installed. Install the CLI tool or check 'specify integration list'.", "timestamp": "2026-08-15T14:57:31.771602+00:00"}
+{"event": "workflow_finished", "status": "failed", "timestamp": "2026-08-15T14:57:31.771984+00:00"}
