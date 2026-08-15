@@ -1,0 +1,37 @@
+schema_version: "1.0"
+workflow:
+  id: "forecast-5-day-3-hour"
+  name: "5-Day / 3-Hour Forecast"
+  version: "1.0.0"
+  author: "OpenWeatherMapSwift"
+  description: "Plans, tasks, and implements docs/spec-kit/002-forecast-5-day-3-hour/spec.md"
+
+requires:
+  speckit_version: ">=0.16.0"
+  integrations:
+    any: ["codex"]
+
+steps:
+  - id: activate-feature
+    type: shell
+    run: >-
+      printf '%s\n' '{"feature_directory":"docs/spec-kit/002-forecast-5-day-3-hour"}' > .specify/feature.json
+
+  - id: plan
+    command: speckit.plan
+    integration: "auto"
+    input:
+      args: "docs/spec-kit/002-forecast-5-day-3-hour/spec.md"
+
+  - id: tasks
+    command: speckit.tasks
+    integration: "auto"
+    input:
+      args: "docs/spec-kit/002-forecast-5-day-3-hour/spec.md"
+
+  - id: implement
+    command: speckit.implement
+    integration: "auto"
+    input:
+      args: "docs/spec-kit/002-forecast-5-day-3-hour/spec.md"
+

@@ -1,0 +1,15 @@
+{
+  "originHash" : "1be0809f9e27138addf64f506b5d52e72026367f0358ebf9953934c23067679e",
+  "pins" : [
+    {
+      "identity" : "resting",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rocxteady/Resting.git",
+      "state" : {
+        "revision" : "2c1d4d69849d959a5e7cd97dba239fb03ab9a57c",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}

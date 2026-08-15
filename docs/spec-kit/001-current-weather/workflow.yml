@@ -1,0 +1,37 @@
+schema_version: "1.0"
+workflow:
+  id: "current-weather"
+  name: "Current Weather"
+  version: "1.0.0"
+  author: "OpenWeatherMapSwift"
+  description: "Plans, tasks, and implements docs/spec-kit/001-current-weather/spec.md"
+
+requires:
+  speckit_version: ">=0.16.0"
+  integrations:
+    any: ["codex"]
+
+steps:
+  - id: activate-feature
+    type: shell
+    run: >-
+      printf '%s\n' '{"feature_directory":"docs/spec-kit/001-current-weather"}' > .specify/feature.json
+
+  - id: plan
+    command: speckit.plan
+    integration: "auto"
+    input:
+      args: "docs/spec-kit/001-current-weather/spec.md"
+
+  - id: tasks
+    command: speckit.tasks
+    integration: "auto"
+    input:
+      args: "docs/spec-kit/001-current-weather/spec.md"
+
+  - id: implement
+    command: speckit.implement
+    integration: "auto"
+    input:
+      args: "docs/spec-kit/001-current-weather/spec.md"
+

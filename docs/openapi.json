@@ -1,0 +1,1737 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "OpenWeatherMap Current, Forecast, and Geocoding APIs",
+    "summary": "Agent-oriented reference for selected OpenWeatherMap APIs.",
+    "description": "Community-maintained description derived from OpenWeather documentation. Coordinate-based weather requests are preferred; use the Geocoding API to resolve place names or postal codes.",
+    "version": "1.0.0",
+    "license": {
+      "name": "OpenWeather terms and conditions",
+      "url": "https://openweather.co.uk/api/files/file/OpenWeather_T%26C_of_sale.pdf"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.openweathermap.org",
+      "description": "OpenWeather production API"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Current Weather",
+      "description": "Current conditions for geographic coordinates.",
+      "externalDocs": {
+        "url": "https://openweathermap.org/api/current"
+      }
+    },
+    {
+      "name": "5-Day Forecast",
+      "description": "Forecasts in 3-hour intervals for 5 days.",
+      "externalDocs": {
+        "url": "https://openweathermap.org/api/forecast5"
+      }
+    },
+    {
+      "name": "16-Day Forecast",
+      "description": "Daily forecasts for up to 16 days. Product access depends on the subscription attached to the API key.",
+      "externalDocs": {
+        "url": "https://openweathermap.org/api/forecast16"
+      }
+    },
+    {
+      "name": "Geocoding",
+      "description": "Direct, postal-code, and reverse geocoding.",
+      "externalDocs": {
+        "url": "https://openweathermap.org/api/geocoding-api"
+      }
+    }
+  ],
+  "security": [
+    {
+      "OpenWeatherApiKey": []
+    }
+  ],
+  "paths": {
+    "/data/2.5/weather": {
+      "get": {
+        "operationId": "getCurrentWeather",
+        "tags": [
+          "Current Weather"
+        ],
+        "summary": "Get current weather",
+        "description": "Returns current weather for one coordinate. Omit `mode` for JSON. XML and HTML are available but are not modeled by this specification.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Latitude"
+          },
+          {
+            "$ref": "#/components/parameters/Longitude"
+          },
+          {
+            "$ref": "#/components/parameters/Units"
+          },
+          {
+            "$ref": "#/components/parameters/Language"
+          },
+          {
+            "$ref": "#/components/parameters/CurrentWeatherMode"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current weather returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentWeatherResponse"
+                },
+                "examples": {
+                  "Istanbul": {
+                    "summary": "Current weather with rain",
+                    "value": {
+                      "coord": {
+                        "lon": 28.9784,
+                        "lat": 41.0082
+                      },
+                      "weather": [
+                        {
+                          "id": 500,
+                          "main": "Rain",
+                          "description": "light rain",
+                          "icon": "10d"
+                        }
+                      ],
+                      "base": "stations",
+                      "main": {
+                        "temp": 18.4,
+                        "feels_like": 18.1,
+                        "temp_min": 17.8,
+                        "temp_max": 19.2,
+                        "pressure": 1014,
+                        "humidity": 71,
+                        "sea_level": 1014,
+                        "grnd_level": 1008
+                      },
+                      "visibility": 10000,
+                      "wind": {
+                        "speed": 3.2,
+                        "deg": 230,
+                        "gust": 5.1
+                      },
+                      "rain": {
+                        "1h": 0.4
+                      },
+                      "clouds": {
+                        "all": 75
+                      },
+                      "dt": 1786795200,
+                      "sys": {
+                        "type": 1,
+                        "id": 6970,
+                        "country": "TR",
+                        "sunrise": 1786759200,
+                        "sunset": 1786810200
+                      },
+                      "timezone": 10800,
+                      "id": 745044,
+                      "name": "Istanbul",
+                      "cod": 200
+                    }
+                  }
+                }
+              },
+              "application/xml": {},
+              "text/html": {}
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "504": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/data/2.5/forecast": {
+      "get": {
+        "operationId": "getFiveDayForecast",
+        "tags": [
+          "5-Day Forecast"
+        ],
+        "summary": "Get a 5-day forecast in 3-hour intervals",
+        "description": "Returns forecast entries separated by 3 hours. `cnt` limits timestamps, not days. Omit `mode` for JSON; XML is available but not modeled.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Latitude"
+          },
+          {
+            "$ref": "#/components/parameters/Longitude"
+          },
+          {
+            "$ref": "#/components/parameters/ForecastCount"
+          },
+          {
+            "$ref": "#/components/parameters/Units"
+          },
+          {
+            "$ref": "#/components/parameters/Language"
+          },
+          {
+            "$ref": "#/components/parameters/JsonXmlMode"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Forecast returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FiveDayForecastResponse"
+                },
+                "examples": {
+                  "Istanbul": {
+                    "summary": "One 3-hour forecast entry",
+                    "value": {
+                      "cod": "200",
+                      "message": 0,
+                      "cnt": 1,
+                      "list": [
+                        {
+                          "dt": 1786806000,
+                          "main": {
+                            "temp": 19.2,
+                            "feels_like": 18.9,
+                            "temp_min": 18.7,
+                            "temp_max": 19.2,
+                            "pressure": 1013,
+                            "sea_level": 1013,
+                            "grnd_level": 1007,
+                            "humidity": 68,
+                            "temp_kf": 0.5
+                          },
+                          "weather": [
+                            {
+                              "id": 500,
+                              "main": "Rain",
+                              "description": "light rain",
+                              "icon": "10d"
+                            }
+                          ],
+                          "clouds": {
+                            "all": 72
+                          },
+                          "wind": {
+                            "speed": 3.5,
+                            "deg": 225,
+                            "gust": 5.4
+                          },
+                          "visibility": 10000,
+                          "pop": 0.65,
+                          "rain": {
+                            "3h": 1.2
+                          },
+                          "sys": {
+                            "pod": "d"
+                          },
+                          "dt_txt": "2026-08-15 15:00:00"
+                        }
+                      ],
+                      "city": {
+                        "id": 745044,
+                        "name": "Istanbul",
+                        "coord": {
+                          "lat": 41.0082,
+                          "lon": 28.9784
+                        },
+                        "country": "TR",
+                        "population": 15460000,
+                        "timezone": 10800,
+                        "sunrise": 1786759200,
+                        "sunset": 1786810200
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {}
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "504": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/data/2.5/forecast/daily": {
+      "get": {
+        "operationId": "getDailyForecast",
+        "tags": [
+          "16-Day Forecast"
+        ],
+        "summary": "Get daily forecasts for up to 16 days",
+        "description": "Returns daily forecast entries. This paid product requires an API key with an eligible subscription. Omit `mode` for JSON; XML is available but not modeled.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Latitude"
+          },
+          {
+            "$ref": "#/components/parameters/Longitude"
+          },
+          {
+            "$ref": "#/components/parameters/DailyCount"
+          },
+          {
+            "$ref": "#/components/parameters/Units"
+          },
+          {
+            "$ref": "#/components/parameters/Language"
+          },
+          {
+            "$ref": "#/components/parameters/JsonXmlMode"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daily forecast returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DailyForecastResponse"
+                },
+                "examples": {
+                  "Istanbul": {
+                    "summary": "One daily forecast entry",
+                    "value": {
+                      "city": {
+                        "id": 745044,
+                        "name": "Istanbul",
+                        "coord": {
+                          "lat": 41.0082,
+                          "lon": 28.9784
+                        },
+                        "country": "TR",
+                        "population": 15460000,
+                        "timezone": 10800
+                      },
+                      "cod": "200",
+                      "message": 0,
+                      "cnt": 1,
+                      "list": [
+                        {
+                          "dt": 1786795200,
+                          "sunrise": 1786759200,
+                          "sunset": 1786810200,
+                          "temp": {
+                            "day": 24.1,
+                            "min": 19.3,
+                            "max": 25.6,
+                            "night": 20.2,
+                            "eve": 23.4,
+                            "morn": 19.7
+                          },
+                          "feels_like": {
+                            "day": 24.3,
+                            "night": 20.4,
+                            "eve": 23.6,
+                            "morn": 19.8
+                          },
+                          "pressure": 1012,
+                          "humidity": 65,
+                          "weather": [
+                            {
+                              "id": 500,
+                              "main": "Rain",
+                              "description": "light rain",
+                              "icon": "10d"
+                            }
+                          ],
+                          "speed": 4.2,
+                          "deg": 220,
+                          "gust": 6.1,
+                          "clouds": 58,
+                          "rain": 1.7,
+                          "pop": 0.6
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "application/xml": {}
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "504": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/geo/1.0/direct": {
+      "get": {
+        "operationId": "directGeocode",
+        "tags": [
+          "Geocoding"
+        ],
+        "summary": "Resolve a place name to coordinates",
+        "description": "Returns matching locations. Include country and US state codes in `q` when known to reduce ambiguity.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/DirectQuery"
+          },
+          {
+            "$ref": "#/components/parameters/DirectLimit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matching locations returned. An empty array means no match.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeocodingLocation"
+                  }
+                },
+                "examples": {
+                  "Istanbul": {
+                    "summary": "Direct geocoding result",
+                    "value": [
+                      {
+                        "name": "Istanbul",
+                        "local_names": {
+                          "en": "Istanbul",
+                          "tr": "İstanbul"
+                        },
+                        "lat": 41.0082,
+                        "lon": 28.9784,
+                        "country": "TR",
+                        "state": "Istanbul"
+                      }
+                    ]
+                  },
+                  "NoMatch": {
+                    "summary": "No matching location",
+                    "value": []
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "504": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/geo/1.0/zip": {
+      "get": {
+        "operationId": "geocodeZip",
+        "tags": [
+          "Geocoding"
+        ],
+        "summary": "Resolve a postal code to coordinates",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ZipCode"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Postal-code area returned.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ZipLocation"
+                },
+                "examples": {
+                  "Istanbul": {
+                    "summary": "Postal-code result",
+                    "value": {
+                      "zip": "34000",
+                      "name": "Istanbul",
+                      "lat": 41.0082,
+                      "lon": 28.9784,
+                      "country": "TR"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "504": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/geo/1.0/reverse": {
+      "get": {
+        "operationId": "reverseGeocode",
+        "tags": [
+          "Geocoding"
+        ],
+        "summary": "Resolve coordinates to nearby place names",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Latitude"
+          },
+          {
+            "$ref": "#/components/parameters/Longitude"
+          },
+          {
+            "$ref": "#/components/parameters/ReverseLimit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Nearby locations returned. An empty array means no match.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GeocodingLocation"
+                  }
+                },
+                "examples": {
+                  "Istanbul": {
+                    "summary": "Reverse geocoding result",
+                    "value": [
+                      {
+                        "name": "Istanbul",
+                        "local_names": {
+                          "en": "Istanbul",
+                          "tr": "İstanbul"
+                        },
+                        "lat": 41.0082,
+                        "lon": 28.9784,
+                        "country": "TR",
+                        "state": "Istanbul"
+                      }
+                    ]
+                  },
+                  "NoMatch": {
+                    "summary": "No nearby location",
+                    "value": []
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServerError"
+          },
+          "504": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "OpenWeatherApiKey": {
+        "type": "apiKey",
+        "name": "appid",
+        "in": "query",
+        "description": "OpenWeather API key. Configure this value in the importing client; never store a real key in this file."
+      }
+    },
+    "parameters": {
+      "Latitude": {
+        "name": "lat",
+        "in": "query",
+        "required": true,
+        "description": "Latitude in decimal degrees.",
+        "schema": {
+          "type": "number",
+          "format": "double",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "example": 41.0082
+      },
+      "Longitude": {
+        "name": "lon",
+        "in": "query",
+        "required": true,
+        "description": "Longitude in decimal degrees.",
+        "schema": {
+          "type": "number",
+          "format": "double",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "example": 28.9784
+      },
+      "Units": {
+        "name": "units",
+        "in": "query",
+        "required": false,
+        "description": "Unit system. Standard uses Kelvin and meters/second; metric uses Celsius and meters/second; imperial uses Fahrenheit and miles/hour.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "standard",
+            "metric",
+            "imperial"
+          ],
+          "default": "standard"
+        },
+        "example": "metric"
+      },
+      "Language": {
+        "name": "lang",
+        "in": "query",
+        "required": false,
+        "description": "OpenWeather language code used for location and weather descriptions.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "en"
+      },
+      "CurrentWeatherMode": {
+        "name": "mode",
+        "in": "query",
+        "required": false,
+        "description": "Response format. Omit for JSON. Non-JSON response schemas are not modeled.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "json",
+            "xml",
+            "html"
+          ]
+        },
+        "example": "json"
+      },
+      "JsonXmlMode": {
+        "name": "mode",
+        "in": "query",
+        "required": false,
+        "description": "Response format. Omit for JSON. The XML response schema is not modeled.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "json",
+            "xml"
+          ]
+        },
+        "example": "json"
+      },
+      "ForecastCount": {
+        "name": "cnt",
+        "in": "query",
+        "required": false,
+        "description": "Maximum number of 3-hour forecast timestamps to return.",
+        "schema": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "example": 8
+      },
+      "DailyCount": {
+        "name": "cnt",
+        "in": "query",
+        "required": false,
+        "description": "Number of daily forecast entries to return.",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+        },
+        "example": 16
+      },
+      "DirectQuery": {
+        "name": "q",
+        "in": "query",
+        "required": true,
+        "description": "Place query as `city`, `city,country`, or `city,state,country`. State codes apply to US locations; country codes follow ISO 3166.",
+        "schema": {
+          "type": "string",
+          "minLength": 1
+        },
+        "example": "Istanbul,TR"
+      },
+      "DirectLimit": {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "description": "Maximum number of matching locations.",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "example": 5
+      },
+      "ReverseLimit": {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "description": "Maximum number of nearby location names to return.",
+        "schema": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "example": 5
+      },
+      "ZipCode": {
+        "name": "zip",
+        "in": "query",
+        "required": true,
+        "description": "Postal code and ISO 3166 country code separated by a comma.",
+        "schema": {
+          "type": "string",
+          "minLength": 3
+        },
+        "example": "34000,TR"
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Required parameters are missing, malformed, or outside their allowed range.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "InvalidParameter": {
+                "value": {
+                  "cod": 400,
+                  "message": "Invalid request parameters",
+                  "parameters": [
+                    "lat"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "API key is missing, invalid, inactive, or lacks product access.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "InvalidApiKey": {
+                "value": {
+                  "cod": 401,
+                  "message": "Invalid API key"
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "No data exists for the requested parameters or the request path is invalid.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "NoData": {
+                "value": {
+                  "cod": 404,
+                  "message": "Not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "API-key request quota has been exceeded.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "QuotaExceeded": {
+                "value": {
+                  "cod": 429,
+                  "message": "Too many requests"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "OpenWeather could not process the request because of an internal or upstream service error.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            },
+            "examples": {
+              "InternalError": {
+                "value": {
+                  "cod": 500,
+                  "message": "Internal server error"
+                }
+              },
+              "BadGateway": {
+                "value": {
+                  "cod": 502,
+                  "message": "Bad gateway"
+                }
+              },
+              "ServiceUnavailable": {
+                "value": {
+                  "cod": 503,
+                  "message": "Service unavailable"
+                }
+              },
+              "GatewayTimeout": {
+                "value": {
+                  "cod": 504,
+                  "message": "Gateway timeout"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "StatusCode": {
+        "description": "OpenWeather response status value; APIs may encode it as a number or string.",
+        "oneOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "string"
+          }
+        ]
+      },
+      "Coordinates": {
+        "type": "object",
+        "required": [
+          "lat",
+          "lon"
+        ],
+        "properties": {
+          "lat": {
+            "type": "number",
+            "format": "double",
+            "minimum": -90,
+            "maximum": 90,
+            "description": "Latitude in decimal degrees."
+          },
+          "lon": {
+            "type": "number",
+            "format": "double",
+            "minimum": -180,
+            "maximum": 180,
+            "description": "Longitude in decimal degrees."
+          }
+        }
+      },
+      "WeatherCondition": {
+        "type": "object",
+        "required": [
+          "id",
+          "main",
+          "description",
+          "icon"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Weather condition ID."
+          },
+          "main": {
+            "type": "string",
+            "description": "Condition group such as Rain, Snow, or Clouds."
+          },
+          "description": {
+            "type": "string",
+            "description": "Localizable condition description."
+          },
+          "icon": {
+            "type": "string",
+            "description": "Weather icon identifier."
+          }
+        }
+      },
+      "Wind": {
+        "type": "object",
+        "required": [
+          "speed",
+          "deg"
+        ],
+        "properties": {
+          "speed": {
+            "type": "number",
+            "description": "Wind speed. Unit depends on the `units` request parameter."
+          },
+          "deg": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 360,
+            "description": "Meteorological wind direction in degrees."
+          },
+          "gust": {
+            "type": "number",
+            "description": "Wind gust. Unit depends on the `units` request parameter; omitted when unavailable."
+          }
+        }
+      },
+      "Clouds": {
+        "type": "object",
+        "required": [
+          "all"
+        ],
+        "properties": {
+          "all": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Cloudiness percentage."
+          }
+        }
+      },
+      "HourlyPrecipitation": {
+        "type": "object",
+        "required": [
+          "1h"
+        ],
+        "properties": {
+          "1h": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Precipitation during the previous hour in mm/h."
+          }
+        }
+      },
+      "ThreeHourPrecipitation": {
+        "type": "object",
+        "required": [
+          "3h"
+        ],
+        "properties": {
+          "3h": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Precipitation during the 3-hour period in millimeters."
+          }
+        }
+      },
+      "CurrentWeatherMain": {
+        "type": "object",
+        "required": [
+          "temp",
+          "feels_like",
+          "pressure",
+          "humidity"
+        ],
+        "properties": {
+          "temp": {
+            "type": "number",
+            "description": "Current temperature. Unit depends on `units`."
+          },
+          "feels_like": {
+            "type": "number",
+            "description": "Human-perceived temperature. Unit depends on `units`."
+          },
+          "temp_min": {
+            "type": "number",
+            "description": "Optional minimum currently observed within the location; not a daily minimum."
+          },
+          "temp_max": {
+            "type": "number",
+            "description": "Optional maximum currently observed within the location; not a daily maximum."
+          },
+          "pressure": {
+            "type": "integer",
+            "description": "Atmospheric pressure in hPa."
+          },
+          "humidity": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Relative humidity percentage."
+          },
+          "sea_level": {
+            "type": "integer",
+            "description": "Sea-level pressure in hPa."
+          },
+          "grnd_level": {
+            "type": "integer",
+            "description": "Ground-level pressure in hPa."
+          }
+        }
+      },
+      "CurrentWeatherSystem": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "integer",
+            "description": "Internal parameter."
+          },
+          "id": {
+            "type": "integer",
+            "description": "Internal parameter."
+          },
+          "message": {
+            "type": "number",
+            "description": "Internal parameter."
+          },
+          "country": {
+            "type": "string",
+            "description": "ISO 3166 country code."
+          },
+          "sunrise": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Sunrise as a Unix timestamp in UTC."
+          },
+          "sunset": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Sunset as a Unix timestamp in UTC."
+          }
+        }
+      },
+      "CurrentWeatherResponse": {
+        "type": "object",
+        "required": [
+          "coord",
+          "weather",
+          "main",
+          "dt",
+          "timezone",
+          "name",
+          "cod"
+        ],
+        "properties": {
+          "coord": {
+            "$ref": "#/components/schemas/Coordinates"
+          },
+          "weather": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeatherCondition"
+            }
+          },
+          "base": {
+            "type": "string",
+            "description": "Internal data-source parameter."
+          },
+          "main": {
+            "$ref": "#/components/schemas/CurrentWeatherMain"
+          },
+          "visibility": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000,
+            "description": "Visibility in meters, capped at 10,000."
+          },
+          "wind": {
+            "$ref": "#/components/schemas/Wind"
+          },
+          "rain": {
+            "$ref": "#/components/schemas/HourlyPrecipitation"
+          },
+          "snow": {
+            "$ref": "#/components/schemas/HourlyPrecipitation"
+          },
+          "clouds": {
+            "$ref": "#/components/schemas/Clouds"
+          },
+          "dt": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Time of data calculation as a Unix timestamp in UTC."
+          },
+          "sys": {
+            "$ref": "#/components/schemas/CurrentWeatherSystem"
+          },
+          "timezone": {
+            "type": "integer",
+            "description": "Location offset from UTC in seconds."
+          },
+          "id": {
+            "type": "integer",
+            "description": "Internal city identifier; do not use as the primary lookup method."
+          },
+          "name": {
+            "type": "string",
+            "description": "Location name."
+          },
+          "cod": {
+            "$ref": "#/components/schemas/StatusCode"
+          }
+        }
+      },
+      "ForecastMain": {
+        "type": "object",
+        "required": [
+          "temp",
+          "feels_like",
+          "pressure",
+          "humidity"
+        ],
+        "properties": {
+          "temp": {
+            "type": "number",
+            "description": "Forecast temperature. Unit depends on `units`."
+          },
+          "feels_like": {
+            "type": "number",
+            "description": "Human-perceived forecast temperature."
+          },
+          "temp_min": {
+            "type": "number",
+            "description": "Optional minimum within the location at this forecast timestamp."
+          },
+          "temp_max": {
+            "type": "number",
+            "description": "Optional maximum within the location at this forecast timestamp."
+          },
+          "pressure": {
+            "type": "integer",
+            "description": "Atmospheric pressure in hPa."
+          },
+          "sea_level": {
+            "type": "integer",
+            "description": "Sea-level pressure in hPa."
+          },
+          "grnd_level": {
+            "type": "integer",
+            "description": "Ground-level pressure in hPa."
+          },
+          "humidity": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Relative humidity percentage."
+          },
+          "temp_kf": {
+            "type": "number",
+            "description": "Internal temperature adjustment parameter."
+          }
+        }
+      },
+      "ForecastSystem": {
+        "type": "object",
+        "required": [
+          "pod"
+        ],
+        "properties": {
+          "pod": {
+            "type": "string",
+            "enum": [
+              "d",
+              "n"
+            ],
+            "description": "Day or night part for this timestamp."
+          }
+        }
+      },
+      "ForecastItem": {
+        "type": "object",
+        "required": [
+          "dt",
+          "main",
+          "weather",
+          "clouds",
+          "wind",
+          "pop",
+          "sys",
+          "dt_txt"
+        ],
+        "properties": {
+          "dt": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Forecast time as a Unix timestamp in UTC."
+          },
+          "main": {
+            "$ref": "#/components/schemas/ForecastMain"
+          },
+          "weather": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeatherCondition"
+            }
+          },
+          "clouds": {
+            "$ref": "#/components/schemas/Clouds"
+          },
+          "wind": {
+            "$ref": "#/components/schemas/Wind"
+          },
+          "visibility": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000,
+            "description": "Average visibility in meters, capped at 10,000."
+          },
+          "pop": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Probability of precipitation, from 0 to 1."
+          },
+          "rain": {
+            "$ref": "#/components/schemas/ThreeHourPrecipitation"
+          },
+          "snow": {
+            "$ref": "#/components/schemas/ThreeHourPrecipitation"
+          },
+          "sys": {
+            "$ref": "#/components/schemas/ForecastSystem"
+          },
+          "dt_txt": {
+            "type": "string",
+            "description": "Human-readable forecast timestamp in UTC."
+          }
+        }
+      },
+      "ForecastCity": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "coord",
+          "country",
+          "timezone",
+          "sunrise",
+          "sunset"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Internal city identifier."
+          },
+          "name": {
+            "type": "string",
+            "description": "Location name."
+          },
+          "coord": {
+            "$ref": "#/components/schemas/Coordinates"
+          },
+          "country": {
+            "type": "string",
+            "description": "ISO 3166 country code."
+          },
+          "population": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "City population."
+          },
+          "timezone": {
+            "type": "integer",
+            "description": "Location offset from UTC in seconds."
+          },
+          "sunrise": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Sunrise as a Unix timestamp in UTC."
+          },
+          "sunset": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Sunset as a Unix timestamp in UTC."
+          }
+        }
+      },
+      "FiveDayForecastResponse": {
+        "type": "object",
+        "required": [
+          "cod",
+          "message",
+          "cnt",
+          "list",
+          "city"
+        ],
+        "properties": {
+          "cod": {
+            "$ref": "#/components/schemas/StatusCode"
+          },
+          "message": {
+            "type": "number",
+            "description": "Internal parameter."
+          },
+          "cnt": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of returned forecast timestamps."
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ForecastItem"
+            }
+          },
+          "city": {
+            "$ref": "#/components/schemas/ForecastCity"
+          }
+        }
+      },
+      "DailyCity": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "coord",
+          "country",
+          "timezone"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Internal city identifier."
+          },
+          "name": {
+            "type": "string",
+            "description": "Location name."
+          },
+          "coord": {
+            "$ref": "#/components/schemas/Coordinates"
+          },
+          "country": {
+            "type": "string",
+            "description": "ISO 3166 country code."
+          },
+          "population": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Internal population parameter; may be absent."
+          },
+          "timezone": {
+            "type": "integer",
+            "description": "Location offset from UTC in seconds."
+          }
+        }
+      },
+      "DailyTemperature": {
+        "type": "object",
+        "required": [
+          "day",
+          "min",
+          "max",
+          "night",
+          "eve",
+          "morn"
+        ],
+        "properties": {
+          "day": {
+            "type": "number",
+            "description": "Temperature at 12:00 local time."
+          },
+          "min": {
+            "type": "number",
+            "description": "Minimum daily temperature."
+          },
+          "max": {
+            "type": "number",
+            "description": "Maximum daily temperature."
+          },
+          "night": {
+            "type": "number",
+            "description": "Temperature at 00:00 local time."
+          },
+          "eve": {
+            "type": "number",
+            "description": "Temperature at 18:00 local time."
+          },
+          "morn": {
+            "type": "number",
+            "description": "Temperature at 06:00 local time."
+          }
+        }
+      },
+      "DailyFeelsLike": {
+        "type": "object",
+        "required": [
+          "day",
+          "night",
+          "eve",
+          "morn"
+        ],
+        "properties": {
+          "day": {
+            "type": "number",
+            "description": "Perceived temperature at 12:00 local time."
+          },
+          "night": {
+            "type": "number",
+            "description": "Perceived temperature at 00:00 local time."
+          },
+          "eve": {
+            "type": "number",
+            "description": "Perceived temperature at 18:00 local time."
+          },
+          "morn": {
+            "type": "number",
+            "description": "Perceived temperature at 06:00 local time."
+          }
+        }
+      },
+      "DailyForecastItem": {
+        "type": "object",
+        "required": [
+          "dt",
+          "sunrise",
+          "sunset",
+          "temp",
+          "feels_like",
+          "pressure",
+          "humidity",
+          "weather",
+          "speed",
+          "deg",
+          "clouds",
+          "pop"
+        ],
+        "properties": {
+          "dt": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Forecast date/time as a Unix timestamp; interpret with `city.timezone`."
+          },
+          "sunrise": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Sunrise as a Unix timestamp in UTC."
+          },
+          "sunset": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Sunset as a Unix timestamp in UTC."
+          },
+          "temp": {
+            "$ref": "#/components/schemas/DailyTemperature"
+          },
+          "feels_like": {
+            "$ref": "#/components/schemas/DailyFeelsLike"
+          },
+          "pressure": {
+            "type": "integer",
+            "description": "Sea-level pressure in hPa."
+          },
+          "humidity": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Relative humidity percentage."
+          },
+          "weather": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeatherCondition"
+            }
+          },
+          "speed": {
+            "type": "number",
+            "description": "Maximum wind speed for the day. Unit depends on `units`."
+          },
+          "deg": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 360,
+            "description": "Direction associated with maximum wind speed."
+          },
+          "gust": {
+            "type": "number",
+            "description": "Wind gust. Unit depends on `units`; omitted when unavailable."
+          },
+          "clouds": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100,
+            "description": "Cloudiness percentage."
+          },
+          "rain": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Daily rain volume in millimeters; omitted when unavailable."
+          },
+          "snow": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Daily snow volume in millimeters; omitted when unavailable."
+          },
+          "pop": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Probability of precipitation, from 0 to 1."
+          }
+        }
+      },
+      "DailyForecastResponse": {
+        "type": "object",
+        "required": [
+          "city",
+          "cod",
+          "message",
+          "cnt",
+          "list"
+        ],
+        "properties": {
+          "city": {
+            "$ref": "#/components/schemas/DailyCity"
+          },
+          "cod": {
+            "$ref": "#/components/schemas/StatusCode"
+          },
+          "message": {
+            "type": "number",
+            "description": "Internal parameter."
+          },
+          "cnt": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 16,
+            "description": "Number of returned daily entries."
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DailyForecastItem"
+            }
+          }
+        }
+      },
+      "GeocodingLocation": {
+        "type": "object",
+        "required": [
+          "name",
+          "lat",
+          "lon",
+          "country"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Found location name."
+          },
+          "local_names": {
+            "type": "object",
+            "description": "Localized names keyed by language code; keys vary by location.",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "lat": {
+            "type": "number",
+            "format": "double",
+            "minimum": -90,
+            "maximum": 90,
+            "description": "Location latitude."
+          },
+          "lon": {
+            "type": "number",
+            "format": "double",
+            "minimum": -180,
+            "maximum": 180,
+            "description": "Location longitude."
+          },
+          "country": {
+            "type": "string",
+            "description": "ISO 3166 country code."
+          },
+          "state": {
+            "type": "string",
+            "description": "State or first-level administrative area where available."
+          }
+        }
+      },
+      "ZipLocation": {
+        "type": "object",
+        "required": [
+          "zip",
+          "name",
+          "lat",
+          "lon",
+          "country"
+        ],
+        "properties": {
+          "zip": {
+            "type": "string",
+            "description": "Requested postal code."
+          },
+          "name": {
+            "type": "string",
+            "description": "Found area name."
+          },
+          "lat": {
+            "type": "number",
+            "format": "double",
+            "minimum": -90,
+            "maximum": 90,
+            "description": "Postal-code centroid latitude."
+          },
+          "lon": {
+            "type": "number",
+            "format": "double",
+            "minimum": -180,
+            "maximum": 180,
+            "description": "Postal-code centroid longitude."
+          },
+          "country": {
+            "type": "string",
+            "description": "ISO 3166 country code."
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": [
+          "cod",
+          "message"
+        ],
+        "properties": {
+          "cod": {
+            "$ref": "#/components/schemas/StatusCode"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable error description."
+          },
+          "parameters": {
+            "type": "array",
+            "description": "Request parameters related to the error when provided.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
